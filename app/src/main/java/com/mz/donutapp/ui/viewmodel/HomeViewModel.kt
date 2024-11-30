@@ -1,7 +1,6 @@
-package com.mz.donutapp.presentation.viewmodel
+package com.mz.donutapp.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.mz.donutapp.data.model.Filling
 import com.mz.donutapp.data.model.Frosting
 import com.mz.donutapp.domain.entity.DonutCombinationEntity
@@ -11,7 +10,6 @@ import com.mz.donutapp.domain.usecase.GetOptionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -35,18 +33,16 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun fetchCombinations() {
-        viewModelScope.launch {
-            val frostingsResult = getOptionsUseCase<Frosting>(OptionsType.FROSTING)
-            val fillingsResult = getOptionsUseCase<Filling>(OptionsType.FILLING)
+        val frostingsResult = getOptionsUseCase<Frosting>(OptionsType.FROSTING)
+        val fillingsResult = getOptionsUseCase<Filling>(OptionsType.FILLING)
 
-            if (frostingsResult.isSuccess && fillingsResult.isSuccess) {
-                val frostings = frostingsResult.getOrDefault(emptyList())
-                val fillings = fillingsResult.getOrDefault(emptyList())
-                _donutCombinationEntities.value = getDonutCombinationsUseCase(frostings, fillings)
-            } else {
-                val e = frostingsResult.exceptionOrNull() ?: fillingsResult.exceptionOrNull()
-                _error.value = "Failed to load data: ${e?.message}"
-            }
+        if (frostingsResult.isSuccess && fillingsResult.isSuccess) {
+            val frostings = frostingsResult.getOrDefault(emptyList())
+            val fillings = fillingsResult.getOrDefault(emptyList())
+            _donutCombinationEntities.value = getDonutCombinationsUseCase(frostings, fillings)
+        } else {
+            val e = frostingsResult.exceptionOrNull() ?: fillingsResult.exceptionOrNull()
+            _error.value = "Failed to load data: ${e?.message}"
         }
     }
 }

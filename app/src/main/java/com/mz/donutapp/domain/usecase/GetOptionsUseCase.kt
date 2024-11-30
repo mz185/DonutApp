@@ -9,7 +9,7 @@ import com.mz.donutapp.domain.enum.OptionsType
 
 class GetOptionsUseCase(private val repository: DonutRepository) {
 
-    suspend operator fun <T> invoke(type: OptionsType): Result<List<T>> {
+    operator fun <T> invoke(type: OptionsType): Result<List<T>> {
         return repository.getOptions(type)
     }
 }

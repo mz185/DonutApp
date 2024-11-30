@@ -1,10 +1,9 @@
-package com.mz.donutapp.presentation.activity
+package com.mz.donutapp.ui.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.mz.donutapp.presentation.screen.HomeScreen
+import com.mz.donutapp.ui.nav.DonutAppNavGraph
 import com.mz.donutapp.ui.theme.DonutAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,12 +17,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             DonutAppTheme {
-                HomeScreen(
-                    viewModel = hiltViewModel(),
-                    onCreateYourOwnClick = {
-                        // Handle navigation to custom donut creation screen here
-                    }
-                )
+                DonutAppNavGraph()
             }
         }
     }

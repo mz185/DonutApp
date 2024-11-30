@@ -9,14 +9,14 @@ import com.mz.donutapp.domain.enum.OptionsType
  */
 
 interface DonutRepository {
-    suspend fun <T> getOptions(type: OptionsType): Result<List<T>>
+    fun <T> getOptions(type: OptionsType): Result<List<T>>
 }
 
 class DonutRepositoryImpl(
     private val context: Context
 ) : DonutRepository {
 
-    override suspend fun <T> getOptions(type: OptionsType): Result<List<T>> {
+    override fun <T> getOptions(type: OptionsType): Result<List<T>> {
         return runCatching {
             val jsonString = readJsonFromAssets(type.fileName)
             Gson().fromJson(jsonString, type.type)

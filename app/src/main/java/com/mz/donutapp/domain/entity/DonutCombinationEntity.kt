@@ -8,7 +8,7 @@ import com.mz.donutapp.data.model.Frosting
  */
 
 data class DonutCombinationEntity(
-    val frosting: Frosting,
-    val filling: Filling,
-    val price: Double
+    val frosting: Frosting? = null,
+    val filling: Filling? = null,
+    val price: Double = 0.0
 )
