@@ -72,6 +72,9 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
+    testImplementation(libs.androidx.core.testing)
+    testImplementation(libs.mockk)
+    testImplementation(libs.assertk.jvm)
 }
 
 // Allow references to generated code
