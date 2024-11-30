@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Strawbbery",
+    "price": 2
+  }, {
+  "name": "Salted Caramel",
+  "price": 2.5
+}, {
+  "name": "Cinnamon Sugar",
+  "price": 3.1
+}, {
+  "name": "Chocolate",
+  "price": 1.75
+}
+]
