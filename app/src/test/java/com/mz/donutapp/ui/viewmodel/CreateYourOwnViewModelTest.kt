@@ -1,4 +1,4 @@
-package com.mz.donutapp.viewmodel
+package com.mz.donutapp.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import assertk.assertThat
@@ -9,7 +9,6 @@ import com.mz.donutapp.data.model.Filling
 import com.mz.donutapp.data.model.Frosting
 import com.mz.donutapp.domain.enum.OptionsType
 import com.mz.donutapp.domain.usecase.GetOptionsUseCase
-import com.mz.donutapp.ui.viewmodel.CreateYourOwnViewModel
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Rule

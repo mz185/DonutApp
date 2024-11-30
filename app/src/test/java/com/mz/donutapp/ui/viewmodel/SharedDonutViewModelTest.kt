@@ -1,4 +1,4 @@
-package com.mz.donutapp.viewmodel
+package com.mz.donutapp.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import assertk.assertThat
@@ -7,7 +7,6 @@ import assertk.assertions.isNull
 import com.mz.donutapp.data.model.Filling
 import com.mz.donutapp.data.model.Frosting
 import com.mz.donutapp.domain.entity.DonutCombinationEntity
-import com.mz.donutapp.ui.viewmodel.SharedDonutViewModel
 import org.junit.Rule
 import org.junit.Test
 
