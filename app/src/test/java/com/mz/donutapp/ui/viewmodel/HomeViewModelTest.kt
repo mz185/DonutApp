@@ -53,8 +53,9 @@ class HomeViewModelTest {
         val homeViewModel = HomeViewModel(getOptionsUseCaseMock, getDonutCombinationsUseCaseMock)
 
         // Then
-        assertThat(homeViewModel.error.value).isNull()
-        assertThat(homeViewModel.donutCombinationEntities.value).isEqualTo(combinations)
+        val homeScreenState = homeViewModel.homeScreenState.value
+        assertThat(homeScreenState.error).isNull()
+        assertThat(homeScreenState.donutCombinationEntities).isEqualTo(combinations)
     }
 
     @Test
@@ -68,8 +69,9 @@ class HomeViewModelTest {
         val homeViewModel = HomeViewModel(getOptionsUseCaseMock, getDonutCombinationsUseCaseMock)
 
         // Then
-        assertThat(homeViewModel.donutCombinationEntities.value).isEqualTo(emptyList())
-        assertThat(homeViewModel.error.value).isEqualTo("Failed to load data: ${e.message}")
+        val homeScreenState = homeViewModel.homeScreenState.value
+        assertThat(homeScreenState.donutCombinationEntities).isEqualTo(emptyList())
+        assertThat(homeScreenState.error).isEqualTo("Failed to load data: ${e.message}")
     }
 
     @Test
@@ -83,8 +85,9 @@ class HomeViewModelTest {
         val homeViewModel = HomeViewModel(getOptionsUseCaseMock, getDonutCombinationsUseCaseMock)
 
         // Then
-        assertThat(homeViewModel.donutCombinationEntities.value).isEqualTo(emptyList())
-        assertThat(homeViewModel.error.value).isEqualTo("Failed to load data: ${e.message}")
+        val homeScreenState = homeViewModel.homeScreenState.value
+        assertThat(homeScreenState.donutCombinationEntities).isEqualTo(emptyList())
+        assertThat(homeScreenState.error).isEqualTo("Failed to load data: ${e.message}")
     }
 
     @Test
@@ -96,12 +99,12 @@ class HomeViewModelTest {
         every { getOptionsUseCaseMock<Filling>(OptionsType.FILLING) } returns Result.failure(fillingsException)
 
         // When
-        val createYourOwnViewModel = CreateYourOwnViewModel(getOptionsUseCaseMock)
+        val homeViewModel = HomeViewModel(getOptionsUseCaseMock, getDonutCombinationsUseCaseMock)
 
         // Then
-        assertThat(createYourOwnViewModel.frostings.value).isEqualTo(emptyList())
-        assertThat(createYourOwnViewModel.fillings.value).isEqualTo(emptyList())
-        assertThat(createYourOwnViewModel.error.value).isNotNull()
+        val homeScreenState = homeViewModel.homeScreenState.value
+        assertThat(homeScreenState.donutCombinationEntities).isEqualTo(emptyList())
+        assertThat(homeScreenState.error).isNotNull()
             .isEqualTo("Failed to load data: ${frostingsException.message}")
     }
 }

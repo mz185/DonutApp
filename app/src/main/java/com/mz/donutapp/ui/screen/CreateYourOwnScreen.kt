@@ -34,9 +34,7 @@ fun CreateYourOwnScreen(
     onFinishOrdering: () -> Unit
 ) {
     val viewModel: CreateYourOwnViewModel = hiltViewModel()
-    val frostings by viewModel.frostings.collectAsState()
-    val fillings by viewModel.fillings.collectAsState()
-    val error by viewModel.error.collectAsState()
+    val createYourOwnScreenState by viewModel.createYourOwnScreenState.collectAsState()
     val selectedCombination by sharedViewModel.selectedCombination.collectAsState()
 
     Column(
@@ -46,16 +44,16 @@ fun CreateYourOwnScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top
     ) {
-        if (error != null) {
+        if (createYourOwnScreenState.error != null) {
             Text(
-                text = "Error: $error",
+                text = "Error: ${createYourOwnScreenState.error}",
                 color = Color.Red,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
         }
 
         Text("Select Frosting:")
-        frostings.forEach { frosting ->
+        createYourOwnScreenState.frostings.forEach { frosting ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
@@ -76,7 +74,7 @@ fun CreateYourOwnScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text("Select Filling:")
-        fillings.forEach { filling ->
+        createYourOwnScreenState.fillings.forEach { filling ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier

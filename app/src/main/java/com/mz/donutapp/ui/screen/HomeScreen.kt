@@ -36,8 +36,7 @@ fun HomeScreen(
     onFinishOrdering: () -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
-    val donutCombinations by viewModel.donutCombinationEntities.collectAsState()
-    val error by viewModel.error.collectAsState()
+    val homeScreenState by viewModel.homeScreenState.collectAsState()
     val selectedCombination by sharedViewModel.selectedCombination.collectAsState()
 
     Column(
@@ -47,9 +46,9 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top
     ) {
-        if (error != null) {
+        if (homeScreenState.error != null) {
             Text(
-                text = "Error: $error",
+                text = "Error: ${homeScreenState.error}",
                 color = Color.Red,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -65,7 +64,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text("Select a Donut Combination:", style = MaterialTheme.typography.headlineMedium)
-        donutCombinations.forEach { combination ->
+        homeScreenState.donutCombinationEntities.forEach { combination ->
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier

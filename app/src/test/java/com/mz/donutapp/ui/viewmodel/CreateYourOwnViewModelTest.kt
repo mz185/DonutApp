@@ -44,9 +44,10 @@ class CreateYourOwnViewModelTest {
         val createYourOwnViewModel = CreateYourOwnViewModel(getOptionsUseCaseMock)
 
         // Then
-        assertThat(createYourOwnViewModel.error.value).isNull()
-        assertThat(createYourOwnViewModel.frostings.value).isEqualTo(frostings)
-        assertThat(createYourOwnViewModel.fillings.value).isEqualTo(fillings)
+        val createYourOwnScreenState = createYourOwnViewModel.createYourOwnScreenState.value
+        assertThat(createYourOwnScreenState.error).isNull()
+        assertThat(createYourOwnScreenState.frostings).isEqualTo(frostings)
+        assertThat(createYourOwnScreenState.fillings).isEqualTo(fillings)
     }
 
     @Test
@@ -60,9 +61,10 @@ class CreateYourOwnViewModelTest {
         val createYourOwnViewModel = CreateYourOwnViewModel(getOptionsUseCaseMock)
 
         // Then
-        assertThat(createYourOwnViewModel.frostings.value).isEqualTo(emptyList())
-        assertThat(createYourOwnViewModel.fillings.value).isEqualTo(emptyList())
-        assertThat(createYourOwnViewModel.error.value).isNotNull()
+        val createYourOwnScreenState = createYourOwnViewModel.createYourOwnScreenState.value
+        assertThat(createYourOwnScreenState.frostings).isEqualTo(emptyList())
+        assertThat(createYourOwnScreenState.fillings).isEqualTo(emptyList())
+        assertThat(createYourOwnScreenState.error).isNotNull()
             .isEqualTo("Failed to load data: ${e.message}")
     }
 
@@ -77,9 +79,10 @@ class CreateYourOwnViewModelTest {
         val createYourOwnViewModel = CreateYourOwnViewModel(getOptionsUseCaseMock)
 
         // Then
-        assertThat(createYourOwnViewModel.frostings.value).isEqualTo(emptyList())
-        assertThat(createYourOwnViewModel.fillings.value).isEqualTo(emptyList())
-        assertThat(createYourOwnViewModel.error.value).isNotNull()
+        val createYourOwnScreenState = createYourOwnViewModel.createYourOwnScreenState.value
+        assertThat(createYourOwnScreenState.frostings).isEqualTo(emptyList())
+        assertThat(createYourOwnScreenState.fillings).isEqualTo(emptyList())
+        assertThat(createYourOwnScreenState.error).isNotNull()
             .isEqualTo("Failed to load data: ${e.message}")
     }
 
@@ -95,9 +98,10 @@ class CreateYourOwnViewModelTest {
         val createYourOwnViewModel = CreateYourOwnViewModel(getOptionsUseCaseMock)
 
         // Then
-        assertThat(createYourOwnViewModel.frostings.value).isEqualTo(emptyList())
-        assertThat(createYourOwnViewModel.fillings.value).isEqualTo(emptyList())
-        assertThat(createYourOwnViewModel.error.value).isNotNull()
+        val createYourOwnScreenState = createYourOwnViewModel.createYourOwnScreenState.value
+        assertThat(createYourOwnScreenState.frostings).isEqualTo(emptyList())
+        assertThat(createYourOwnScreenState.fillings).isEqualTo(emptyList())
+        assertThat(createYourOwnScreenState.error).isNotNull()
             .isEqualTo("Failed to load data: ${frostingsException.message}")
     }
 }

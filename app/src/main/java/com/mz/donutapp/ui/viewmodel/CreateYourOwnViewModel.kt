@@ -5,9 +5,11 @@ import com.mz.donutapp.data.model.Filling
 import com.mz.donutapp.data.model.Frosting
 import com.mz.donutapp.domain.enum.OptionsType
 import com.mz.donutapp.domain.usecase.GetOptionsUseCase
+import com.mz.donutapp.ui.state.CreateYourOwnScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
@@ -19,14 +21,8 @@ class CreateYourOwnViewModel @Inject constructor(
     private val getOptionsUseCase: GetOptionsUseCase
 ) : ViewModel() {
 
-    private val _frostings = MutableStateFlow<List<Frosting>>(emptyList())
-    val frostings: StateFlow<List<Frosting>> = _frostings
-
-    private val _fillings = MutableStateFlow<List<Filling>>(emptyList())
-    val fillings: StateFlow<List<Filling>> = _fillings
-
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> = _error
+    private val _createYourOwnScreenState = MutableStateFlow(CreateYourOwnScreenState())
+    val createYourOwnScreenState: StateFlow<CreateYourOwnScreenState> = _createYourOwnScreenState
 
     init {
         fetchOptions()
@@ -40,11 +36,18 @@ class CreateYourOwnViewModel @Inject constructor(
             val frostings = frostingsResult.getOrDefault(emptyList())
             val fillings = fillingsResult.getOrDefault(emptyList())
 
-            _frostings.value = frostings
-            _fillings.value = fillings
+            _createYourOwnScreenState.update {
+                it.copy(
+                    frostings = frostings,
+                    fillings = fillings,
+                    error = null
+                )
+            }
         } else {
             val e = frostingsResult.exceptionOrNull() ?: fillingsResult.exceptionOrNull()
-            _error.value = "Failed to load data: ${e?.message}"
+            _createYourOwnScreenState.update {
+                it.copy(error = "Failed to load data: ${e?.message}")
+            }
         }
     }
 }

@@ -3,13 +3,14 @@ package com.mz.donutapp.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import com.mz.donutapp.data.model.Filling
 import com.mz.donutapp.data.model.Frosting
-import com.mz.donutapp.domain.entity.DonutCombinationEntity
 import com.mz.donutapp.domain.enum.OptionsType
 import com.mz.donutapp.domain.usecase.GetDonutCombinationsUseCase
 import com.mz.donutapp.domain.usecase.GetOptionsUseCase
+import com.mz.donutapp.ui.state.HomeScreenState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 /**
@@ -22,11 +23,8 @@ class HomeViewModel @Inject constructor(
     private val getDonutCombinationsUseCase: GetDonutCombinationsUseCase
 ) : ViewModel() {
 
-    private val _donutCombinationEntities = MutableStateFlow<List<DonutCombinationEntity>>(emptyList())
-    val donutCombinationEntities: StateFlow<List<DonutCombinationEntity>> = _donutCombinationEntities
-
-    private val _error = MutableStateFlow<String?>(null)
-    val error: StateFlow<String?> = _error
+    private val _homeScreenState = MutableStateFlow(HomeScreenState())
+    val homeScreenState: StateFlow<HomeScreenState> = _homeScreenState
 
     init {
         fetchCombinations()
@@ -39,10 +37,17 @@ class HomeViewModel @Inject constructor(
         if (frostingsResult.isSuccess && fillingsResult.isSuccess) {
             val frostings = frostingsResult.getOrDefault(emptyList())
             val fillings = fillingsResult.getOrDefault(emptyList())
-            _donutCombinationEntities.value = getDonutCombinationsUseCase(frostings, fillings)
+            _homeScreenState.update {
+                it.copy(
+                    donutCombinationEntities = getDonutCombinationsUseCase(frostings, fillings),
+                    error = null
+                )
+            }
         } else {
             val e = frostingsResult.exceptionOrNull() ?: fillingsResult.exceptionOrNull()
-            _error.value = "Failed to load data: ${e?.message}"
+            _homeScreenState.update {
+                it.copy(error = "Failed to load data: ${e?.message}")
+            }
         }
     }
 }
