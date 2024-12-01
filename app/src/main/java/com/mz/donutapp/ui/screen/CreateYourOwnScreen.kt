@@ -97,7 +97,7 @@ fun CreateYourOwnScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            "Total Price: €${selectedCombination?.price}",
+            "Total Price: €${selectedCombination?.price ?: 0}",
             modifier = Modifier.padding(8.dp)
         )
 
